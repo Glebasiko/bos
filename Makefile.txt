@@ -1,0 +1,19 @@
+CFLAGS = -Wall -Wextra -I.
+SRCDIR = src
+
+all: prog.exe
+
+prog.exe: $(SRCDIR)/main.o $(SRCDIR)/liblogger.so
+	$(CC) $(CFLAGS) $(SRCDIR)/main.o -ldl -L$(SRCDIR) -llogger -o $@
+
+$(SRCDIR)/main.o: main.c liblogger.h
+	$(CC) $(CFLAGS) -c main.c -o $(SRCDIR)/main.o
+
+$(SRCDIR)/liblogger.so: $(SRCDIR)/liblogger.c liblogger.h
+	$(CC) $(CFLAGS) -shared -fPIC $(SRCDIR)/liblogger.c -o $@
+
+clean:
+	rm -f prog.exe
+	rm -f $(SRCDIR)/*.o $(SRCDIR)/*.so
+
+.PHONY: all clean

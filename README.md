@@ -1,1 +1,2 @@
-# bos
+# bos2
+*readme file example*
